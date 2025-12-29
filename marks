@@ -1,0 +1,72 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+main.jsx
+
+import { useState } from "react";
+
+function App() {
+  const [students, setStudents] = useState([
+    { id: 1, name: "Arjun", status: "Not Marked" },
+    { id: 2, name: "Priya", status: "Not Marked" },
+    { id: 3, name: "Rahul", status: "Not Marked" },
+    { id: 4, name: "Sneha", status: "Not Marked" }
+  ]);
+
+  const markAttendance = (id, status) => {
+    const updated = students.map((student) =>
+      student.id === id ? { ...student, status } : student
+    );
+    setStudents(updated);
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Attendance Tracker</h2>
+
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Status</th>
+            <th>Mark</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {students.map((student) => (
+            <tr key={student.id}>
+              <td>{student.name}</td>
+              <td><b>{student.status}</b></td>
+              <td>
+                <button onClick={() => markAttendance(student.id, "Present")}>
+                  Present
+                </button>
+                &nbsp;
+                <button onClick={() => markAttendance(student.id, "Absent")}>
+                  Absent
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3>Summary</h3>
+      <p>
+        Present: {students.filter((s) => s.status === "Present").length} <br />
+        Absent: {students.filter((s) => s.status === "Absent").length} <br />
+        Not Marked: {students.filter((s) => s.status === "Not Marked").length}
+      </p>
+    </div>
+  );
+}
+
+export default App;
