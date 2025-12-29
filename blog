@@ -1,0 +1,95 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+
+
+import { useState } from "react";
+
+function App() {
+  const [posts] = useState([
+    { id: 1, title: "Learning React", content: "React makes UI development easier." },
+    { id: 2, title: "Web Development", content: "Frontend + Backend = Full Stack!" },
+  ]);
+
+  const [comments, setComments] = useState({});
+  const [currentInput, setCurrentInput] = useState("");
+
+  const addComment = (postId) => {
+    if (!currentInput.trim()) {
+      alert("Write a comment first");
+      return;
+    }
+
+    setComments((prev) => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), currentInput],
+    }));
+
+    setCurrentInput("");
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ textAlign: "center" }}>📝 Responsive Blog Layout</h1>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "20px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            style={{
+              width: "350px",
+              border: "1px solid gray",
+              borderRadius: "10px",
+              padding: "15px",
+            }}
+          >
+            <h2>{post.title}</h2>
+            <p>{post.content}</p>
+
+            <h4>
+              Comments ({comments[post.id]?.length || 0})
+            </h4>
+
+            <ul>
+              {(comments[post.id] || []).map((c, index) => (
+                <li key={index}>{c}</li>
+              ))}
+            </ul>
+
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              value={currentInput}
+              onChange={(e) => setCurrentInput(e.target.value)}
+              style={{ width: "100%" }}
+            />
+
+            <button
+              onClick={() => addComment(post.id)}
+              style={{ marginTop: "10px", width: "100%" }}
+            >
+              Add Comment
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
