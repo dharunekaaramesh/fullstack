@@ -1,0 +1,115 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+app.jsx
+
+import { useState } from "react";
+
+function App() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
+  function validate() {
+    let temp = {};
+
+    if (!email) temp.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(email))
+      temp.email = "Enter a valid email";
+
+    if (!password) temp.password = "Password is required";
+    else if (password.length < 6)
+      temp.password = "Password must be at least 6 characters";
+
+    setErrors(temp);
+
+    return Object.keys(temp).length === 0;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    alert("Login Successful!");
+    console.log({ email, password });
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>Login Form</h2>
+
+      <form onSubmit={handleSubmit} style={styles.form}>
+
+        <input
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={styles.input}
+        />
+        <span style={styles.error}>{errors.email}</span>
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={styles.input}
+        />
+        <span style={styles.error}>{errors.password}</span>
+
+        <button type="submit" style={styles.button}>
+          Login
+        </button>
+      </form>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    width: "360px",
+    margin: "70px auto",
+    padding: "20px",
+    background: "white",
+    borderRadius: "10px",
+    fontFamily: "Arial",
+    boxShadow: "0 0 10px rgba(0,0,0,.2)"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  input: {
+    margin: "8px 0",
+    padding: "8px"
+  },
+  button: {
+    padding: "10px",
+    marginTop: "10px",
+    border: "none",
+    background: "#4CAF50",
+    color: "white",
+    fontSize: "16px",
+    borderRadius: "5px",
+    cursor: "pointer"
+  },
+  error: {
+    color: "red",
+    fontSize: "13px",
+    marginTop: "-5px",
+    marginBottom: "5px"
+  }
+};
+
+export default App;
