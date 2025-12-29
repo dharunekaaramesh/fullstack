@@ -1,0 +1,103 @@
+import { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [registered, setRegistered] = useState([]);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (!name || !eventName) {
+      alert("Please fill all fields before submitting.");
+      return;
+    }
+
+    const ok = confirm(
+      "Confirm Event Registration?\n\n" +
+      "Name: " + name +
+      "\nEvent: " + eventName +
+      "\n\nClick OK to confirm or Cancel to go back."
+    );
+
+    if (!ok) {
+      alert("Registration cancelled.");
+      return;
+    }
+
+    alert("🎉 Registration Successful!\n\nWelcome " + name + "!");
+
+    setRegistered([
+      ...registered,
+      { id: Date.now(), name, eventName }
+    ]);
+
+    setName("");
+    setEventName("");
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Event Registration</h2>
+
+      <form onSubmit={handleRegister}>
+        <div>
+          <label>Participant Name: </label>
+          <input
+            type="text"
+            value={name}
+            placeholder="Enter your name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Event Name: </label>
+          <input
+            type="text"
+            value={eventName}
+            placeholder="Enter event name"
+            onChange={(e) => setEventName(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <button type="submit">Register</button>
+      </form>
+
+      <hr />
+
+      <h3>Registered Participants</h3>
+
+      {registered.length === 0 ? (
+        <p>No one registered yet.</p>
+      ) : (
+        <ul>
+          {registered.map((p) => (
+            <li key={p.id}>
+              {p.name} registered for <b>{p.eventName}</b>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
