@@ -1,0 +1,82 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+
+
+import { useState } from "react";
+
+function App() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // demo credentials
+  const validUser = "user123";
+  const validPass = "pass123";
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      alert("Both fields are required!");
+      return;
+    }
+
+    if (username !== validUser) {
+      alert("❌ Invalid Username");
+      return;
+    }
+
+    if (password !== validPass) {
+      alert("❌ Incorrect Password");
+      return;
+    }
+
+    alert("🎉 Login Successful! Welcome " + username);
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Basic Authentication System</h2>
+
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username: </label>
+          <input
+            type="text"
+            value={username}
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Password: </label>
+          <input
+            type="password"
+            value={password}
+            placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p>Demo credentials → Username: user123 | Password: pass123</p>
+    </div>
+  );
+}
+
+export default App;
