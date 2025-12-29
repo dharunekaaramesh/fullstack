@@ -1,0 +1,102 @@
+import { useState } from "react";
+
+function App() {
+  const [message, setMessage] = useState("");
+  const [notifications, setNotifications] = useState([]);
+
+  const addNotification = () => {
+    if (!message.trim()) {
+      alert("Enter a notification message");
+      return;
+    }
+
+    const newNote = {
+      id: Date.now(),
+      text: message,
+      read: false,
+    };
+
+    setNotifications([newNote, ...notifications]);
+    setMessage("");
+  };
+
+  const toggleRead = (id) => {
+    setNotifications(
+      notifications.map((n) =>
+        n.id === id ? { ...n, read: !n.read } : n
+      )
+    );
+  };
+
+  const clearNotifications = () => {
+    if (notifications.length === 0) {
+      alert("No notifications to clear");
+      return;
+    }
+    if (confirm("Clear all notifications?")) {
+      setNotifications([]);
+    }
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h1>📢 Dashboard Notification System</h1>
+
+      <h3>Unread Notifications: {unreadCount}</h3>
+
+      <input
+        type="text"
+        placeholder="Type notification message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      <button onClick={addNotification}>Add Notification</button>
+      <button onClick={clearNotifications}>Clear All</button>
+
+      <h2>Notifications</h2>
+
+      {notifications.length === 0 && <p>No notifications yet</p>}
+
+      <ul style={{ listStyle: "none" }}>
+        {notifications.map((note) => (
+          <li
+            key={note.id}
+            style={{
+              border: "1px solid black",
+              margin: "10px",
+              padding: "10px",
+              backgroundColor: note.read ? "#d3ffd3" : "#ffd3d3",
+            }}
+          >
+            <p>{note.text}</p>
+            <button onClick={() => toggleRead(note.id)}>
+              {note.read ? "Mark as Unread" : "Mark as Read"}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+
+
+
