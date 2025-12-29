@@ -1,0 +1,134 @@
+import { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [workshop, setWorkshop] = useState("");
+  const [registrations, setRegistrations] = useState([]);
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // validation
+    if (!name || !email || !workshop) {
+      setError("All fields are required.");
+      return;
+    }
+
+    setError("");
+
+    const newEntry = {
+      id: Date.now(),
+      name,
+      email,
+      workshop
+    };
+
+    setRegistrations([...registrations, newEntry]);
+
+    // clear inputs
+    setName("");
+    setEmail("");
+    setWorkshop("");
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Online Workshop Registration</h2>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Full Name: </label>
+          <input
+            type="text"
+            value={name}
+            placeholder="Enter your name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Email: </label>
+          <input
+            type="email"
+            value={email}
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Select Workshop: </label>
+          <select
+            value={workshop}
+            onChange={(e) => setWorkshop(e.target.value)}
+          >
+            <option value="">-- choose --</option>
+            <option>Web Development</option>
+            <option>Data Science</option>
+            <option>Cyber Security</option>
+            <option>AI & Machine Learning</option>
+          </select>
+        </div>
+
+        <br />
+
+        <button type="submit">Register</button>
+      </form>
+
+      <hr />
+
+      <h3>Live Preview</h3>
+
+      {(!name && !email && !workshop) ? (
+        <p>Enter details to see live preview...</p>
+      ) : (
+        <div style={{ border: "1px solid gray", padding: "10px" }}>
+          <p><b>Name:</b> {name || "—"}</p>
+          <p><b>Email:</b> {email || "—"}</p>
+          <p><b>Workshop:</b> {workshop || "—"}</p>
+        </div>
+      )}
+
+      <hr />
+
+      <h3>Registered Participants</h3>
+
+      {registrations.length === 0 ? (
+        <p>No registrations yet.</p>
+      ) : (
+        <ul>
+          {registrations.map((r) => (
+            <li key={r.id}>
+              {r.name} — {r.workshop}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
