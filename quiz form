@@ -1,0 +1,138 @@
+import { useState } from "react";
+
+const quizData = [
+  {
+    question: "Which language is used in React?",
+    options: ["Python", "Java", "JavaScript", "C"],
+    answer: "JavaScript"
+  },
+  {
+    question: "React is a ___",
+    options: ["Framework", "Library", "Language", "Database"],
+    answer: "Library"
+  },
+  {
+    question: "Which hook is used for state?",
+    options: ["useState", "useEffect", "useRef", "useMemo"],
+    answer: "useState"
+  }
+];
+
+function App() {
+
+  const [current, setCurrent] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState("");
+  const [finished, setFinished] = useState(false);
+
+  function handleOption(option) {
+    setSelected(option);
+
+    if (option === quizData[current].answer) {
+      setScore(score + 1);
+    }
+  }
+
+  function nextQuestion() {
+    if (current === quizData.length - 1) {
+      setFinished(true);
+    } else {
+      setCurrent(current + 1);
+      setSelected("");
+    }
+  }
+
+  function restartQuiz(){
+    setCurrent(0);
+    setScore(0);
+    setSelected("");
+    setFinished(false);
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>Mini Online Quiz</h2>
+
+      <h3>Score: {score}</h3>
+
+      {finished ? (
+        <>
+          <h2>Quiz Finished 🎉</h2>
+          <h3>Your Final Score: {score}/{quizData.length}</h3>
+          <button style={styles.button} onClick={restartQuiz}>Restart</button>
+        </>
+      ) : (
+        <div>
+          <h3>{quizData[current].question}</h3>
+
+          {quizData[current].options.map((opt, index) => (
+            <button
+              key={index}
+              onClick={() => handleOption(opt)}
+              style={{
+                ...styles.option,
+                backgroundColor:
+                  selected === opt ? "#4CAF50" : "white",
+                color: selected === opt ? "white" : "black"
+              }}
+            >
+              {opt}
+            </button>
+          ))}
+
+          <br />
+          <button style={styles.button} onClick={nextQuestion}>
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    width: "420px",
+    margin: "60px auto",
+    padding: "20px",
+    textAlign: "center",
+    background: "white",
+    borderRadius: "12px",
+    fontFamily: "Arial",
+    boxShadow: "0 0 12px rgba(0,0,0,.2)"
+  },
+  option: {
+    display: "block",
+    width: "100%",
+    padding: "10px",
+    margin: "6px 0",
+    borderRadius: "6px",
+    border: "1px solid gray",
+    cursor: "pointer",
+    fontSize: "15px"
+  },
+  button: {
+    marginTop: "10px",
+    padding: "10px 20px",
+    borderRadius: "6px",
+    border: "none",
+    background: "#2196F3",
+    color: "white",
+    cursor: "pointer"
+  }
+};
+
+export default App;
+
+
+main.jsx
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
