@@ -1,0 +1,101 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+app.jsx
+
+import { useState } from "react";
+
+function App() {
+
+  const [poll, setPoll] = useState({
+    question: "Which subject do you like most?",
+    options: [
+      { text: "Maths", votes: 0 },
+      { text: "Science", votes: 0 },
+      { text: "English", votes: 0 },
+      { text: "Computer", votes: 0 }
+    ]
+  });
+
+  const [voted, setVoted] = useState(false);
+
+  function handleVote(index) {
+
+    if (voted) {
+      alert("You have already voted!");
+      return;
+    }
+
+    const updatedPoll = { ...poll };
+    updatedPoll.options[index].votes += 1;
+
+    setPoll(updatedPoll);
+    setVoted(true);
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>📊 Classroom Polling System</h2>
+
+      <h3>{poll.question}</h3>
+
+      {poll.options.map((opt, index) => (
+        <div key={index} style={styles.row}>
+          <button
+            onClick={() => handleVote(index)}
+            style={styles.button}
+            disabled={voted}
+          >
+            {opt.text}
+          </button>
+
+          <span style={styles.count}>{opt.votes} votes</span>
+        </div>
+      ))}
+
+      <h3>Total Votes: {poll.options.reduce((a, b) => a + b.votes, 0)}</h3>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    width: "500px",
+    margin: "50px auto",
+    padding: "20px",
+    textAlign: "center",
+    background: "white",
+    borderRadius: "12px",
+    fontFamily: "Arial",
+    boxShadow: "0 0 12px rgba(0,0,0,.2)"
+  },
+  row: {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "8px 0"
+  },
+  button: {
+    width: "70%",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "none",
+    background: "#4CAF50",
+    color: "white",
+    cursor: "pointer",
+    fontSize: "15px"
+  },
+  count: {
+    padding: "8px",
+    fontSize: "16px"
+  }
+};
+
+export default App;
