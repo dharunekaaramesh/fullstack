@@ -1,0 +1,144 @@
+import { useState } from "react";
+
+function App() {
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    feedback: ""
+  });
+
+  const [submittedData, setSubmittedData] = useState([]);
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // add new feedback to list
+    setSubmittedData([...submittedData, form]);
+
+    // clear form
+    setForm({
+      name: "",
+      email: "",
+      feedback: ""
+    });
+  }
+
+  return (
+    <div style={styles.container}>
+      <h2>📝 Feedback Form</h2>
+
+      <form onSubmit={handleSubmit} style={styles.form}>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          value={form.name}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          value={form.email}
+          onChange={handleChange}
+          style={styles.input}
+          required
+        />
+
+        <textarea
+          name="feedback"
+          placeholder="Enter your feedback"
+          value={form.feedback}
+          onChange={handleChange}
+          style={styles.textarea}
+          required
+        />
+
+        <button type="submit" style={styles.button}>
+          Submit Feedback
+        </button>
+
+      </form>
+
+      <h3>📢 Submitted Feedback</h3>
+
+      {submittedData.length === 0 && <p>No feedback submitted yet.</p>}
+
+      {submittedData.map((item, index) => (
+        <div key={index} style={styles.card}>
+          <p><strong>Name:</strong> {item.name}</p>
+          <p><strong>Email:</strong> {item.email}</p>
+          <p><strong>Feedback:</strong> {item.feedback}</p>
+        </div>
+      ))}
+
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    width: "550px",
+    margin: "40px auto",
+    padding: "20px",
+    textAlign: "center",
+    background: "white",
+    borderRadius: "12px",
+    fontFamily: "Arial",
+    boxShadow: "0 0 12px rgba(0,0,0,.2)"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  input: {
+    margin: "8px 0",
+    padding: "8px"
+  },
+  textarea: {
+    margin: "8px 0",
+    padding: "8px",
+    height: "90px"
+  },
+  button: {
+    padding: "10px",
+    marginTop: "10px",
+    border: "none",
+    background: "#4CAF50",
+    color: "white",
+    fontSize: "16px",
+    borderRadius: "6px",
+    cursor: "pointer"
+  },
+  card: {
+    textAlign: "left",
+    padding: "10px",
+    marginTop: "10px",
+    borderRadius: "8px",
+    background: "#f3f3f3"
+  }
+};
+
+export default App;
+
+
+main.jsx
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
