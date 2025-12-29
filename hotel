@@ -1,0 +1,89 @@
+import React from "react";
+
+function App() {
+  const reserveRoom = () => {
+    alert("🏨 Welcome to the Hotel Reservation System");
+
+    const name = prompt("Enter Guest Name:");
+    if (!name) {
+      alert("Reservation cancelled: Guest name is required.");
+      return;
+    }
+
+    const roomType = prompt(
+      "Enter Room Type:\n1. Single\n2. Double\n3. Suite"
+    );
+
+    const days = prompt("Enter Number of Days to Stay:");
+    if (!days || isNaN(days) || days <= 0) {
+      alert("Invalid number of days. Reservation cancelled.");
+      return;
+    }
+
+    // simple pricing
+    let pricePerDay = 0;
+    let roomName = "";
+
+    if (roomType === "1") {
+      roomName = "Single";
+      pricePerDay = 1500;
+    } else if (roomType === "2") {
+      roomName = "Double";
+      pricePerDay = 2500;
+    } else if (roomType === "3") {
+      roomName = "Suite";
+      pricePerDay = 4000;
+    } else {
+      alert("Invalid room type selected. Reservation cancelled.");
+      return;
+    }
+
+    const total = pricePerDay * Number(days);
+
+    const confirmBooking = confirm(
+      "Please confirm your reservation details:\n\n" +
+        "Guest Name: " + name +
+        "\nRoom Type: " + roomName +
+        "\nDays: " + days +
+        "\nPrice per Day: ₹" + pricePerDay +
+        "\nTotal Amount: ₹" + total +
+        "\n\nClick OK to Confirm or Cancel to Abort."
+    );
+
+    if (confirmBooking) {
+      alert(
+        "🎉 Reservation Confirmed!\n\nGuest: " +
+          name +
+          "\nRoom: " +
+          roomName +
+          "\nTotal Payable: ₹" +
+          total +
+          "\n\nEnjoy your stay!"
+      );
+    } else {
+      alert("❌ Reservation Cancelled.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Hotel Reservation System using Dialog Boxes</h2>
+      <button onClick={reserveRoom}>Reserve Room</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
