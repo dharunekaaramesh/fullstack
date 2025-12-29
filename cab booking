@@ -1,0 +1,90 @@
+import React from "react";
+
+function App() {
+  const bookCab = () => {
+    alert("🚕 Welcome to Online Cab Booking");
+
+    const name = prompt("Enter Passenger Name:");
+    if (!name) {
+      alert("Booking cancelled: Name is required.");
+      return;
+    }
+
+    const pickup = prompt("Enter Pickup Location:");
+    const drop = prompt("Enter Drop Location:");
+
+    const distance = prompt("Enter Distance in KM:");
+    if (!distance || isNaN(distance) || distance <= 0) {
+      alert("Invalid distance. Booking cancelled.");
+      return;
+    }
+
+    const cabType = prompt(
+      "Choose Cab Type:\n1. Mini (₹12/km)\n2. Sedan (₹15/km)\n3. SUV (₹18/km)"
+    );
+
+    let rate = 0;
+    let cabName = "";
+
+    if (cabType === "1") {
+      cabName = "Mini";
+      rate = 12;
+    } else if (cabType === "2") {
+      cabName = "Sedan";
+      rate = 15;
+    } else if (cabType === "3") {
+      cabName = "SUV";
+      rate = 18;
+    } else {
+      alert("Invalid cab type selected. Booking cancelled.");
+      return;
+    }
+
+    const totalFare = rate * Number(distance);
+
+    const confirmBooking = confirm(
+      "Please confirm your cab booking details:\n\n" +
+        "Passenger: " + name +
+        "\nPickup: " + pickup +
+        "\nDrop: " + drop +
+        "\nCab Type: " + cabName +
+        "\nDistance: " + distance + " km" +
+        "\nFare per km: ₹" + rate +
+        "\nTotal Fare: ₹" + totalFare +
+        "\n\nClick OK to Confirm or Cancel to Abort."
+    );
+
+    if (confirmBooking) {
+      alert(
+        "🎉 Cab Booked Successfully!\n\n" +
+          "Passenger: " + name +
+          "\nCab: " + cabName +
+          "\nTotal Fare: ₹" + totalFare +
+          "\n\nHave a safe ride!"
+      );
+    } else {
+      alert("❌ Cab Booking Cancelled.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Online Cab Booking Using Dialog Boxes</h2>
+      <button onClick={bookCab}>Book Cab</button>
+    </div>
+  );
+}
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+export default App;
