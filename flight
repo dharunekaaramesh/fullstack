@@ -1,0 +1,55 @@
+import React from "react";
+
+function App() {
+  const bookTicket = () => {
+    alert("Welcome to Flight Ticket Booking System ✈️");
+
+    const name = prompt("Enter Passenger Name:");
+    if (!name) {
+      alert("Booking cancelled: Name is required.");
+      return;
+    }
+
+    const from = prompt("Enter Departure City:");
+    const to = prompt("Enter Destination City:");
+    const tickets = prompt("Enter Number of Tickets:");
+
+    const ok = confirm(
+      "Please confirm your booking details:\n\n" +
+        "Passenger Name: " + name +
+        "\nFrom: " + from +
+        "\nTo: " + to +
+        "\nTickets: " + tickets +
+        "\n\nClick OK to Confirm or Cancel to Abort."
+    );
+
+    if (ok) {
+      alert("🎉 Booking Confirmed!\n\nHappy Journey, " + name + "!");
+    } else {
+      alert("❌ Booking Cancelled.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Flight Ticket Booking Using Dialog Boxes</h2>
+      <button onClick={bookTicket}>Book Flight Ticket</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
