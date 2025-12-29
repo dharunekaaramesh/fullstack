@@ -1,0 +1,88 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+app.jsx
+
+import { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+  const [course, setCourse] = useState("");
+  const [enrollments, setEnrollments] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name || !course) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const newEntry = { id: Date.now(), name, course };
+    setEnrollments([...enrollments, newEntry]);
+
+    // clear inputs
+    setName("");
+    setCourse("");
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Course Enrollment Form</h2>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Student Name: </label>
+          <input
+            type="text"
+            value={name}
+            placeholder="Enter your name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Select Course: </label>
+          <select value={course} onChange={(e) => setCourse(e.target.value)}>
+            <option value="">-- Select --</option>
+            <option>Full Stack Development</option>
+            <option>Data Science</option>
+            <option>Cyber Security</option>
+            <option>Computer Networks</option>
+          </select>
+        </div>
+
+        <br />
+
+        <button type="submit">Enroll</button>
+      </form>
+
+      <hr />
+
+      <h3>Enrolled Students</h3>
+
+      {enrollments.length === 0 ? (
+        <p>No enrollments yet</p>
+      ) : (
+        <ul>
+          {enrollments.map((item) => (
+            <li key={item.id}>
+              <b>{item.name}</b> enrolled in <b>{item.course}</b>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
