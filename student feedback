@@ -1,0 +1,91 @@
+import { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+  const [rating, setRating] = useState("");
+  const [comment, setComment] = useState("");
+  const [feedbackList, setFeedbackList] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name || !rating || !comment) {
+      alert("Please fill all fields!");
+      return;
+    }
+
+    const newFeedback = { name, rating, comment };
+    setFeedbackList([...feedbackList, newFeedback]);
+    alert("Feedback Submitted Successfully!");
+
+    setName("");
+    setRating("");
+    setComment("");
+  };
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h1>Student Feedback System</h1>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter Student Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br /><br />
+
+        <select value={rating} onChange={(e) => setRating(e.target.value)}>
+          <option value="">Select Rating</option>
+          <option value="1">⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
+        <br /><br />
+
+        <textarea
+          placeholder="Enter your feedback comments"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        ></textarea>
+        <br /><br />
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+
+      <h2>Submitted Feedback</h2>
+
+      {feedbackList.length === 0 && <p>No feedback submitted yet.</p>}
+
+      <ul style={{ listStyle: "none" }}>
+        {feedbackList.map((fb, index) => (
+          <li key={index} style={{ border: "1px solid black", margin: 10, padding: 10 }}>
+            <p><b>Name:</b> {fb.name}</p>
+            <p><b>Rating:</b> {fb.rating} ⭐</p>
+            <p><b>Comments:</b> {fb.comment}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
